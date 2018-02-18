@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Budget</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="../statics/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen" />
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css" th:href="@{webjars/bootstrap/3.3.4/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js" th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Budgeting is fun!</h1>
+        </div>
+        <form action="#" th:action="@{/api/dailycosts}" th:object="${dailycost}" method="post">
+           <p>Date: <input type="text" th:field="${dailycost.dateOfPurchase}" />
+               Amount: <input type="text" th:field="${dailycost.amount}" />
+                Category:
+                    <select th:field="${dailycost.category}">
+                        <option th:each="cat : ${T(com.jessicaotte.budget.model.Category).values()}" th:value="${{cat}}" th:text="${cat}"></option>
+                    </select>
+                Comments: <input type="text" th:field="${dailycost.comments}" /></p>
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+        <br />
+        <table class="table table-striped" >
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Comments</th>
+            </tr>
+            <tr th:each="item : ${lastWeekDailyCosts}">
+                <td th:text="${#temporals.format(item.dateOfPurchase, 'dd-MM-yyyy')}"></td>
+                <td th:text="${item.amount}"></td>
+                <td th:text="${item.category}"></td>
+                <td th:text="${item.comments}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
